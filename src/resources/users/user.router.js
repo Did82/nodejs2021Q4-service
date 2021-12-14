@@ -2,14 +2,15 @@ const {
   getUsersHandler,
   addUserHandler,
   getUserHandler,
-  // updateUserHandler,
-  // deleteUserHandler,
+  updateUserHandler,
+  deleteUserHandler,
 } = require('./user.service');
 
 const {
   getUsersSchema,
   addUserSchema,
   getUserSchema,
+  updateUserSchema,
 } = require('./user.model');
 
 function usersRoutes(fastify, options, done) {
@@ -22,11 +23,11 @@ function usersRoutes(fastify, options, done) {
   // Add user
   fastify.post('/users', addUserSchema, addUserHandler);
 
-  // // Delete user
-  // fastify.delete('/users/:id', deleteUserOpts);
-  //
-  // // Update user
-  // fastify.put('/users/:id', updateUserOpts);
+  // Delete user
+  fastify.delete('/users/:id', deleteUserHandler);
+
+  // Update user
+  fastify.put('/users/:id', updateUserSchema, updateUserHandler);
 
   done();
 }

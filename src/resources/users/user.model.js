@@ -43,4 +43,26 @@ const addUserSchema = {
   },
 };
 
-module.exports = { getUsersSchema, getUserSchema, addUserSchema };
+const updateUserSchema = {
+  schema: {
+    body: {
+      type: 'object',
+      required: ['name'],
+      properties: {
+        name: { type: 'string' },
+        login: { type: 'string' },
+        password: { type: 'string' },
+      },
+    },
+    response: {
+      200: user,
+    },
+  },
+};
+
+module.exports = {
+  getUsersSchema,
+  getUserSchema,
+  addUserSchema,
+  updateUserSchema,
+};
