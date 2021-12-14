@@ -6,6 +6,8 @@ const { PORT } = require('./common/config');
 const port = PORT || 3000;
 
 fastify.register(require('./resources/users/user.router'));
+fastify.register(require('./resources/boards/board.router'));
+fastify.register(require('./resources/tasks/task.router'));
 
 const start = async () => {
   try {

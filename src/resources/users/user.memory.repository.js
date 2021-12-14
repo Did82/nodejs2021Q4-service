@@ -17,6 +17,9 @@ const deleteUser = (id) => {
   const user = db.users.find((item) => item.id === id);
   if (user) {
     db.users = db.users.filter((item) => item.id !== id);
+    db.tasks = db.tasks.map((item) =>
+      item.userId === id ? { ...item, userId: null } : item
+    );
     result = 'ok';
   }
   return result;

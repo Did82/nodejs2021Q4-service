@@ -1,7 +1,7 @@
 const db = {
   users: [],
-  board: [],
-  task: [],
+  boards: [],
+  tasks: [],
 };
 
 module.exports = db;
