@@ -25,6 +25,7 @@ const deleteBoard = (id) => {
   const board = db.boards.find((item) => item.id === id);
   if (board) {
     db.boards = db.boards.filter((item) => item.id !== id);
+    db.tasks = db.tasks.filter((task) => task.boardId !== id);
     result = 'ok';
   }
   return result;

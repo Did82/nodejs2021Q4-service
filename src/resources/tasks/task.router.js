@@ -27,7 +27,7 @@ function tasksRoutes(fastify, options, done) {
   fastify.delete('/boards/:id/tasks/:id', deleteTaskHandler);
 
   // Update task
-  fastify.put('/tasks/:id', updateTaskSchema, updateTaskHandler);
+  fastify.put('/boards/:id/tasks/:id', updateTaskSchema, updateTaskHandler);
 
   done();
 }

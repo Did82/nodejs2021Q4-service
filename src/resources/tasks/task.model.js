@@ -34,7 +34,7 @@ const addTaskSchema = {
   schema: {
     body: {
       type: 'object',
-      required: ['title', 'order', 'boardId', 'columnId'],
+      required: ['title', 'order', 'boardId'],
       properties: {
         title: { type: 'string' },
         order: { type: 'number' },
@@ -54,7 +54,7 @@ const updateTaskSchema = {
   schema: {
     body: {
       type: 'object',
-      required: ['title', 'order', 'boardId', 'columnId'],
+      required: ['title', 'order', 'boardId'],
       properties: {
         title: { type: 'string' },
         order: { type: 'number' },
