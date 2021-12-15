@@ -1,6 +1,29 @@
+const fastify = require('fastify')({
+  logger: true,
+});
 const { PORT } = require('./common/config');
-const app = require('./app');
 
-app.listen(PORT, () =>
-  console.log(`App is running on http://localhost:${PORT}`)
-);
+const port = PORT || 3000;
+
+fastify.register(require('fastify-swagger'), {
+  exposeRoute: true,
+  routePrefix: '/docs',
+  swagger: {
+    info: { title: 'nodejs2021Q4-service' },
+  },
+});
+
+fastify.register(require('./resources/users/user.router'));
+fastify.register(require('./resources/boards/board.router'));
+fastify.register(require('./resources/tasks/task.router'));
+
+const start = async () => {
+  try {
+    await fastify.listen(port);
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();

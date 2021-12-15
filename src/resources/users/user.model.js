@@ -1,22 +1,68 @@
-const uuid = require('uuid');
+const user = {
+  type: 'object',
+  properties: {
+    id: { type: 'string' },
+    name: { type: 'string' },
+    login: { type: 'string' },
+  },
+};
 
-class User {
-  constructor({
-    id = uuid(),
-    name = 'USER',
-    login = 'user',
-    password = 'P@55w0rd'
-  } = {}) {
-    this.id = id;
-    this.name = name;
-    this.login = login;
-    this.password = password;
-  }
+const getUsersSchema = {
+  schema: {
+    response: {
+      200: {
+        type: 'array',
+        items: user,
+      },
+    },
+  },
+};
 
-  static toResponse(user) {
-    const { id, name, login } = user;
-    return { id, name, login };
-  }
-}
+const getUserSchema = {
+  schema: {
+    response: {
+      200: user,
+    },
+  },
+};
 
-module.exports = User;
+const addUserSchema = {
+  schema: {
+    body: {
+      type: 'object',
+      required: ['name'],
+      properties: {
+        name: { type: 'string' },
+        login: { type: 'string' },
+        password: { type: 'string' },
+      },
+    },
+    response: {
+      201: user,
+    },
+  },
+};
+
+const updateUserSchema = {
+  schema: {
+    body: {
+      type: 'object',
+      required: ['name'],
+      properties: {
+        name: { type: 'string' },
+        login: { type: 'string' },
+        password: { type: 'string' },
+      },
+    },
+    response: {
+      200: user,
+    },
+  },
+};
+
+module.exports = {
+  getUsersSchema,
+  getUserSchema,
+  addUserSchema,
+  updateUserSchema,
+};
