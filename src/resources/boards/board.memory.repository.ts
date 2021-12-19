@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import db from '../../common/db';
+import db, { IBoard, IColumn } from '../../common/db';
 
 export interface IBoardPostBody {
   title: string;
@@ -14,15 +14,15 @@ export interface IColumnPostBody {
 const getAll = async () => db.boards;
 
 const addColumn = (column: IColumnPostBody) => {
-  const id = uuidv4();
+  const id: string = uuidv4();
   return { id, ...column };
 };
 
 const addBoard = async (board: IBoardPostBody) => {
-  const id = uuidv4();
+  const id: string = uuidv4();
   const { title, columns } = board;
-  const newColumns = columns.map((item) => addColumn(item));
-  const newBoard = { id, title, columns: newColumns };
+  const newColumns: IColumn[] = columns.map((item) => addColumn(item));
+  const newBoard: IBoard = { id, title, columns: newColumns };
   db.boards = [...db.boards, newBoard];
   return newBoard;
 };
@@ -30,8 +30,8 @@ const addBoard = async (board: IBoardPostBody) => {
 const getBoard = async (id: string) => db.boards.find((item) => item.id === id);
 
 const deleteBoard = async (id: string) => {
-  let result = 'not_found';
-  const board = db.boards.find((item) => item.id === id);
+  let result: string = 'not_found';
+  const board: IBoard | undefined = db.boards.find((item) => item.id === id);
   if (board) {
     db.boards = db.boards.filter((item) => item.id !== id);
     db.tasks = db.tasks.filter((task) => task.boardId !== id);

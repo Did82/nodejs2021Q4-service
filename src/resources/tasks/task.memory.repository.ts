@@ -25,7 +25,7 @@ const getTask = async (id: string) => db.tasks.find((item) => item.id === id);
 
 const deleteTask = async (id: string) => {
   let result: string = 'not_found';
-  const task = db.tasks.find((item) => item.id === id);
+  const task: ITask | undefined = db.tasks.find((item) => item.id === id);
   if (task) {
     db.tasks = db.tasks.filter((item) => item.id !== id);
     result = 'ok';

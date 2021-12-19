@@ -1,10 +1,10 @@
-import Fastify from 'fastify';
+import Fastify, { FastifyInstance } from 'fastify';
 import { PORT } from './common/config';
 import usersRoutes from './resources/users/user.router';
 import boardsRoutes from './resources/boards/board.router';
 import tasksRoutes from './resources/tasks/task.router';
 
-const fastify = Fastify({
+const fastify: FastifyInstance = Fastify({
   logger: true,
 });
 

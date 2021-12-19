@@ -32,5 +32,4 @@ const boardsRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   fastify.put('/boards/:id', updateBoardSchema, updateBoardHandler);
 };
 
-// module.exports = boardsRoutes;
 export default boardsRoutes;
