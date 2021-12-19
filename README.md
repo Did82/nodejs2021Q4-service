@@ -5,26 +5,26 @@
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
 
-## Downloading
-
-```
-git clone {repository URL}
-```
-
 ## Installing NPM modules
 
 ```
 npm install
 ```
 
-## Running application
+## Running application in development mode
 
 ```
-npm start
+npm run start
+```
+
+## Building to JS and running application in `dist` directory
+
+```
+npm run build
 ```
 
 After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
+in your browser OpenAPI documentation by typing http://localhost:4000/docs/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 ## Testing
@@ -64,9 +64,3 @@ If you're using VSCode, you can get a better developer experience from integrati
 ```
 npm run lint
 ```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
