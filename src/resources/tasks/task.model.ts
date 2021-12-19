@@ -70,9 +70,4 @@ const updateTaskSchema = {
   },
 };
 
-module.exports = {
-  getTasksSchema,
-  getTaskSchema,
-  addTaskSchema,
-  updateTaskSchema,
-};
+export { getTasksSchema, getTaskSchema, addTaskSchema, updateTaskSchema };

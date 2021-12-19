@@ -1,19 +1,21 @@
-const {
+import { FastifyInstance, FastifyPluginAsync } from 'fastify';
+
+import {
   getBoardsHandler,
   addBoardHandler,
   getBoardHandler,
   updateBoardHandler,
   deleteBoardHandler,
-} = require('./board.service');
+} from './board.service';
 
-const {
+import {
   getBoardsSchema,
   addBoardSchema,
   getBoardSchema,
   updateBoardSchema,
-} = require('./board.model');
+} from './board.model';
 
-function boardsRoutes(fastify, options, done) {
+const boardsRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   // Get all boards
   fastify.get('/boards', getBoardsSchema, getBoardsHandler);
 
@@ -28,8 +30,6 @@ function boardsRoutes(fastify, options, done) {
 
   // Update board
   fastify.put('/boards/:id', updateBoardSchema, updateBoardHandler);
+};
 
-  done();
-}
-
-module.exports = boardsRoutes;
+export default boardsRoutes;

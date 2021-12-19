@@ -1,19 +1,21 @@
-const {
-  getTasksHandler,
-  addTaskHandler,
-  getTaskHandler,
-  updateTaskHandler,
-  deleteTaskHandler,
-} = require('./task.service');
+import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 
-const {
-  getTasksSchema,
+import {
+  addTaskHandler,
+  deleteTaskHandler,
+  getTaskHandler,
+  getTasksHandler,
+  updateTaskHandler,
+} from './task.service';
+
+import {
   addTaskSchema,
   getTaskSchema,
+  getTasksSchema,
   updateTaskSchema,
-} = require('./task.model');
+} from './task.model';
 
-function tasksRoutes(fastify, options, done) {
+const tasksRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   // Get all tasks
   fastify.get('/boards/:id/tasks', getTasksSchema, getTasksHandler);
 
@@ -28,8 +30,6 @@ function tasksRoutes(fastify, options, done) {
 
   // Update task
   fastify.put('/boards/:id/tasks/:id', updateTaskSchema, updateTaskHandler);
+};
 
-  done();
-}
-
-module.exports = tasksRoutes;
+export default tasksRoutes;

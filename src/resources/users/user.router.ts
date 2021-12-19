@@ -1,19 +1,21 @@
-const {
-  getUsersHandler,
-  addUserHandler,
-  getUserHandler,
-  updateUserHandler,
-  deleteUserHandler,
-} = require('./user.service');
+import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 
-const {
-  getUsersSchema,
+import {
   addUserSchema,
   getUserSchema,
+  getUsersSchema,
   updateUserSchema,
-} = require('./user.model');
+} from './user.model';
 
-function usersRoutes(fastify, options, done) {
+import {
+  addUserHandler,
+  deleteUserHandler,
+  getUserHandler,
+  getUsersHandler,
+  updateUserHandler,
+} from './user.service';
+
+const usersRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   // Get all users
   fastify.get('/users', getUsersSchema, getUsersHandler);
 
@@ -28,8 +30,6 @@ function usersRoutes(fastify, options, done) {
 
   // Update user
   fastify.put('/users/:id', updateUserSchema, updateUserHandler);
+};
 
-  done();
-}
-
-module.exports = usersRoutes;
+export default usersRoutes;

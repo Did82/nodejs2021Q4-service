@@ -60,9 +60,4 @@ const updateUserSchema = {
   },
 };
 
-module.exports = {
-  getUsersSchema,
-  getUserSchema,
-  addUserSchema,
-  updateUserSchema,
-};
+export { getUsersSchema, getUserSchema, addUserSchema, updateUserSchema };

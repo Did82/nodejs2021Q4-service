@@ -5,26 +5,26 @@
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
 
-## Downloading
-
-```
-git clone {repository URL}
-```
-
 ## Installing NPM modules
 
 ```
 npm install
 ```
 
-## Running application
+## Running application in development mode
 
 ```
-npm start
+npm run start
+```
+
+## Building to JS and running application in `dist` directory
+
+```
+npm run build
 ```
 
 After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
+in your browser OpenAPI documentation by typing http://localhost:4000/docs/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 ## Testing
@@ -65,8 +65,81 @@ If you're using VSCode, you can get a better developer experience from integrati
 npm run lint
 ```
 
-### Debugging in VSCode
+### Description
+Application operate with the following resources:
 
-Press <kbd>F5</kbd> to debug.
+User (with attributes):
 
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+```
+{ id, name, login, password }
+```
+
+Board (set of columns):
+
+```
+{ id, title, columns }
+```
+
+Column (set of tasks):
+
+```
+{ id, title, order }
+```
+
+Task:
+
+```
+{
+id,
+title,
+order,
+description,
+userId, //assignee
+boardId,
+columnId
+}
+```
+
+Details:
+
+For User, Board and Task REST endpoints with separate router paths created:
+
+#### User (`/users` route):
+
+GET `/users` - get all users (remove password from response)
+
+GET `/users/:userId` - get the user by id (ex. “/users/123”) (remove password from response)
+
+POST `/users` - create user
+
+PUT `/users/:userId` - update user
+
+DELETE `/users/:userId` - delete user
+
+#### Board (`/boards` route):
+
+GET `/boards` - get all boards
+
+GET `/boards/:boardId` - get the board by id
+
+POST `/boards` - create board
+
+PUT `/boards/:boardId` - update board
+
+DELETE `/boards/:boardId` - delete board
+
+#### Task (`boards/:boardId/tasks` route):
+
+GET `boards/:boardId/tasks` - get all tasks
+
+GET `boards/:boardId/tasks/:taskId` - get the task by id
+
+POST `boards/:boardId/tasks` - create task
+
+PUT `boards/:boardId/tasks/:taskId` - update task
+
+DELETE `boards/:boardId/tasks/:taskId` - delete task
+
+When somebody DELETEs Board, all its Tasks deleted as well.
+
+When somebody DELETEs User, all Tasks where User is assignee updated to put userId = null.

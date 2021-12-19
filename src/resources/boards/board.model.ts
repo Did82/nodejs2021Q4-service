@@ -88,9 +88,4 @@ const updateBoardSchema = {
   },
 };
 
-module.exports = {
-  getBoardsSchema,
-  getBoardSchema,
-  addBoardSchema,
-  updateBoardSchema,
-};
+export { getBoardsSchema, getBoardSchema, addBoardSchema, updateBoardSchema };
