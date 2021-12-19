@@ -1,7 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const db = {
-  users: [],
-  boards: [],
-  tasks: [],
+    users: [],
+    boards: [],
+    tasks: [],
 };
-
-module.exports = db;
+exports.default = db;

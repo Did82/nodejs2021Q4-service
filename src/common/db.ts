@@ -1,0 +1,42 @@
+interface IUser {
+  id: string;
+  name: string;
+  login: string;
+  password: string;
+}
+
+interface IBoard {
+  id: string;
+  title: string;
+  columns: IColumn[];
+}
+
+interface IColumn {
+  id: string;
+  title: string;
+  order: number;
+}
+
+export interface ITask {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string | null;
+  columnId?: string | null;
+}
+
+interface IMyStorage {
+  users: IUser[];
+  boards: IBoard[];
+  tasks: ITask[];
+}
+
+const db: IMyStorage = {
+  users: [],
+  boards: [],
+  tasks: [],
+};
+
+export default db;
