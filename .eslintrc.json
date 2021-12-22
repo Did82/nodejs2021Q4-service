@@ -6,16 +6,33 @@
     "jest": true,
     "node": true
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./",
     "sourceType": "module",
     "ecmaVersion": 2021,
     "ecmaFeatures": {
       "impliedStrict": true
-    },
-    "project": "./tsconfig.json"
+    }
   },
   "settings": {
-    "noInlineConfig": true
+    "noInlineConfig": true,
+    "import/parsers": {
+      "@typescript-eslint/parser": ["ts"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      },
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "tsconfig.json"
+      }
+    },
+    "node": {
+      "tryExtensions": [".js", ".ts"]
+    }
   },
   "extends": [
     "eslint:recommended",
@@ -25,11 +42,11 @@
     "prettier"
   ],
   "rules": {
-    "@typescript-eslint/no-explicit-any": 2,
     "import/extensions": "off",
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-explicit-any": "error"
   }
 }
