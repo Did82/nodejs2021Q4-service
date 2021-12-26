@@ -19,11 +19,16 @@
   "settings": {
     "noInlineConfig": true,
     "import/parsers": {
-      "@typescript-eslint/parser": ["ts"]
+      "@typescript-eslint/parser": [
+        "ts"
+      ]
     },
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".ts"]
+        "extensions": [
+          ".js",
+          ".ts"
+        ]
       },
       "typescript": {
         "alwaysTryTypes": true,
@@ -31,7 +36,10 @@
       }
     },
     "node": {
-      "tryExtensions": [".js", ".ts"]
+      "tryExtensions": [
+        ".js",
+        ".ts"
+      ]
     }
   },
   "extends": [
@@ -47,6 +55,12 @@
     "node/no-unsupported-features/es-syntax": "off",
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
-    "@typescript-eslint/no-explicit-any": "error"
+    "@typescript-eslint/no-explicit-any": [
+      "error",
+      {
+        "fixToUnknown": false,
+        "ignoreRestArgs": false
+      }
+    ]
   }
 }

@@ -1,11 +1,43 @@
-import Fastify, { FastifyInstance } from 'fastify';
+import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
 import { PORT } from './common/config';
 import usersRoutes from './resources/users/user.router';
 import boardsRoutes from './resources/boards/board.router';
 import tasksRoutes from './resources/tasks/task.router';
 
-const fastify: FastifyInstance = Fastify({
-  logger: true,
+const fastify = Fastify({
+  // logger: {
+  //   level: 'info',
+  //   file: './log.txt',
+  //   prettyPrint: {
+  //     colorize: false,
+  //     translateTime: 'SYS:HH:MM:ss',
+  //     ignore: 'pid,hostname',
+  //   },
+  // },
+  logger: {
+    level: 'info',
+    prettyPrint: {
+      colorize: true,
+      translateTime: 'SYS:dd.mm.yyyy HH:MM:ss',
+      ignore: 'pid,hostname',
+    },
+    serializers: {
+      res(reply: FastifyReply) {
+        return {
+          statusCode: reply.statusCode,
+        };
+      },
+      req(request: FastifyRequest) {
+        return {
+          method: request.method,
+          url: request.url,
+          path: request.routerPath,
+          parameters: request.params,
+          query: request.query,
+        };
+      },
+    },
+  },
 });
 
 const port: number = parseInt(<string>PORT, 10) || 3000;
@@ -18,9 +50,15 @@ fastify.register(require('fastify-swagger'), {
   },
 });
 
-fastify.register(usersRoutes);
-fastify.register(boardsRoutes);
-fastify.register(tasksRoutes);
+fastify.register(usersRoutes).after((err) => {
+  if (err) throw err;
+});
+fastify.register(boardsRoutes).after((err) => {
+  if (err) throw err;
+});
+fastify.register(tasksRoutes).after((err) => {
+  if (err) throw err;
+});
 
 const start = async () => {
   try {
