@@ -1,11 +1,12 @@
-import Fastify, { FastifyInstance } from 'fastify';
+import Fastify from 'fastify';
 import { PORT } from './common/config';
 import usersRoutes from './resources/users/user.router';
 import boardsRoutes from './resources/boards/board.router';
 import tasksRoutes from './resources/tasks/task.router';
+import myLogger from './common/logger';
 
-const fastify: FastifyInstance = Fastify({
-  logger: true,
+const fastify = Fastify({
+  logger: myLogger,
 });
 
 const port: number = parseInt(<string>PORT, 10) || 3000;
@@ -18,9 +19,15 @@ fastify.register(require('fastify-swagger'), {
   },
 });
 
-fastify.register(usersRoutes);
-fastify.register(boardsRoutes);
-fastify.register(tasksRoutes);
+fastify.register(usersRoutes).after((err) => {
+  if (err) throw err;
+});
+fastify.register(boardsRoutes).after((err) => {
+  if (err) throw err;
+});
+fastify.register(tasksRoutes).after((err) => {
+  if (err) throw err;
+});
 
 const start = async () => {
   try {

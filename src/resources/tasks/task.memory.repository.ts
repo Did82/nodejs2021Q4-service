@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
+import { FastifyRequest } from 'fastify';
 import db, { ITask } from '../../common/db';
-import { MyReq } from './task.service';
+import { IParams } from '../users/user.service';
 
 export interface ITaskPostBody {
   title: string;
@@ -11,6 +12,10 @@ export interface ITaskPostBody {
   columnId?: string | null;
 }
 
+type MyReq = FastifyRequest<{
+  Params: IParams;
+  Body: ITaskPostBody;
+}>;
 const getAll = async () => db.tasks;
 
 const addTask = async (req: MyReq) => {
