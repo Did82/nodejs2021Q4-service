@@ -1,13 +1,13 @@
-version: '3'
+version: '3.9'
 services:
   app:
     build: .
+    container_name: nodejs2021Q4-service
     ports:
       - ${PORT}:${PORT}
     depends_on:
       - postgres
-    environment:
-      - PORT=4000
+    restart: always
   postgres:
     build: ./database
 
