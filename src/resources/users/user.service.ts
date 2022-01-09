@@ -23,13 +23,14 @@ const getUserHandler = async (req: MyReq, reply: FastifyReply) => {
 
 const addUserHandler = async (req: MyReq, reply: FastifyReply) => {
   const newUser = await users.addUser(req.body);
-  // req.log.info({ body: req.body });
+  req.log.info({ body: req.body });
   return reply.code(201).send(newUser);
 };
 
 const updateUserHandler = async (req: MyReq, reply: FastifyReply) => {
   const { id } = req.params;
   const updatedUser = await users.updateUser(id, req.body);
+  req.log.info({ body: req.body });
   return reply.code(200).send(updatedUser);
 };
 
