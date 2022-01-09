@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    container_name: nodejs2021Q4-service
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - postgres
+    environment:
+      - PORT=${PORT}
+    volumes:
+      - ./src:/app/src
+    restart: always
+  postgres:
+    build: ./database
+    container_name: nodejs2021Q4-postgres
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+
+volumes:
+  mydata:
+  dbdata:
