@@ -1,4 +1,5 @@
 import Fastify from 'fastify';
+import 'reflect-metadata';
 import { PORT } from './common/config';
 import usersRoutes from './resources/users/user.router';
 import boardsRoutes from './resources/boards/board.router';
