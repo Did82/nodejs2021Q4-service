@@ -1,10 +1,10 @@
 import Fastify from 'fastify';
-import 'reflect-metadata';
 import { PORT } from './common/config';
 import usersRoutes from './resources/users/user.router';
 import boardsRoutes from './resources/boards/board.router';
 import tasksRoutes from './resources/tasks/task.router';
 import myLogger from './common/logger';
+import db from './db/db';
 
 const fastify = Fastify({
   logger: myLogger,
@@ -20,6 +20,9 @@ fastify.register(require('fastify-swagger'), {
   },
 });
 
+fastify.register(db).after((err) => {
+  if (err) throw err;
+});
 fastify.register(usersRoutes).after((err) => {
   if (err) throw err;
 });
@@ -29,6 +32,10 @@ fastify.register(boardsRoutes).after((err) => {
 fastify.register(tasksRoutes).after((err) => {
   if (err) throw err;
 });
+
+// fastify.decorate('db', {
+//   users: getRepository(User),
+// });
 
 const start = async () => {
   try {
