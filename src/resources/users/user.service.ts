@@ -1,11 +1,17 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { getRepository } from 'typeorm';
-import { IUserPostBody } from './user.memory.repository';
 import { User } from '../../db/entity/User';
+import { Task } from '../../db/entity/Task';
 
 export interface IParams {
   id: string;
+}
+
+interface IUserPostBody {
+  name: string;
+  login: string;
+  password: string;
 }
 
 type MyReq = FastifyRequest<{
@@ -34,15 +40,15 @@ const addUserHandler = async (req: MyReq, reply: FastifyReply) => {
 
 const updateUserHandler = async (req: MyReq, reply: FastifyReply) => {
   const { id } = req.params;
-  const user = await getRepository(User).findOneOrFail(id);
-  getRepository(User).merge(user, req.body);
-  const updatedUser = await getRepository(User).save(user);
+  const updatedUser = await getRepository(User).update(id, req.body);
+
   return reply.code(200).send(updatedUser);
 };
 
 const deleteUserHandler = async (req: MyReq, reply: FastifyReply) => {
   const { id } = req.params;
   const result = await getRepository(User).delete(id);
+  await getRepository(Task).update({ userId: id }, { userId: null });
   return result.affected === 1
     ? reply.code(200).send({ message: `User with id: ${id} was DELETED` })
     : reply.code(404).send(new Error(`User with id: ${id} NOT found`));

@@ -3,21 +3,17 @@ import fp from 'fastify-plugin';
 import { createConnection, getConnectionOptions } from 'typeorm';
 import { FastifyInstance } from 'fastify';
 import { User } from './entity/User';
+import { Board } from './entity/Board';
+import { Task } from './entity/Task';
 
 export default fp(async (fastify: FastifyInstance) => {
   try {
     const connectionOptions = await getConnectionOptions();
     Object.assign(connectionOptions, {
-      entities: [User],
+      entities: [User, Board, Task],
     });
-
-    // const connection = await createConnection(connectionOptions);
     await createConnection(connectionOptions);
     fastify.log.info('database connected');
-
-    // fastify.decorate('db', {
-    //   users: connection.getRepository(User),
-    // });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
