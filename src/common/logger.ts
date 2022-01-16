@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 const myLogger = {
-  file: './LOG/syslog.log',
+  // file: './LOG/syslog.log',
   level: 'info',
   prettyPrint: {
     colorize: true,
