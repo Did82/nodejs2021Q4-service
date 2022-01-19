@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { getRepository } from 'typeorm';
+import { hash } from 'bcryptjs';
 import { User } from '../../db/entity/User';
 import { Task } from '../../db/entity/Task';
 
@@ -34,6 +35,7 @@ const getUserHandler = async (req: MyReq, reply: FastifyReply) => {
 
 const addUserHandler = async (req: MyReq, reply: FastifyReply) => {
   const newUser = await getRepository(User).create(req.body);
+  newUser.password = await hash(newUser.password, 10);
   const savedUser = await getRepository(User).save(newUser);
   return reply.code(201).send(savedUser);
 };
