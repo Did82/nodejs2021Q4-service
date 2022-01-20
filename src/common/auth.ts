@@ -1,12 +1,17 @@
 // import fastifyJwt from 'fastify-jwt';
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import {
+  FastifyInstance,
+  FastifyPluginAsync,
+  FastifyReply,
+  FastifyRequest,
+} from 'fastify';
 import fp from 'fastify-plugin';
 import fastifyJwt from 'fastify-jwt';
 import { JWT_SECRET_KEY } from './config';
 
 const secretJwt: string = JWT_SECRET_KEY!;
 
-const auth = async (fastify: FastifyInstance) => {
+const auth: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   fastify.register(fastifyJwt, {
     secret: secretJwt,
   });

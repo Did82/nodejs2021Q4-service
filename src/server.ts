@@ -8,7 +8,7 @@ import db from './db/db';
 import auth from './common/auth';
 import loginRoute from './resources/login/login.router';
 
-export const fastify: FastifyInstance = Fastify({
+const fastify: FastifyInstance = Fastify({
   logger: myLogger,
 });
 
@@ -20,7 +20,7 @@ fastify.register(auth).after((err) => {
 
 fastify.register(require('fastify-swagger'), {
   exposeRoute: true,
-  routePrefix: '/docs',
+  routePrefix: '/doc',
   swagger: {
     info: { title: 'nodejs2021Q4-service' },
   },
@@ -56,3 +56,5 @@ const start = async () => {
 };
 
 start();
+
+export default fastify;

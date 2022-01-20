@@ -17,19 +17,39 @@ import {
 
 const tasksRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   // Get all tasks
-  fastify.get('/boards/:id/tasks', getTasksSchema, getTasksHandler);
+  fastify.get(
+    '/boards/:id/tasks',
+    { schema: getTasksSchema, preValidation: [fastify.auth] },
+    getTasksHandler
+  );
 
   // Get single task
-  fastify.get('/boards/:id/tasks/:id', getTaskSchema, getTaskHandler);
+  fastify.get(
+    '/boards/:id/tasks/:id',
+    { schema: getTaskSchema, preValidation: [fastify.auth] },
+    getTaskHandler
+  );
 
   // Add task
-  fastify.post('/boards/:id/tasks', addTaskSchema, addTaskHandler);
+  fastify.post(
+    '/boards/:id/tasks',
+    { schema: addTaskSchema, preValidation: [fastify.auth] },
+    addTaskHandler
+  );
 
   // Delete task
-  fastify.delete('/boards/:id/tasks/:id', deleteTaskHandler);
+  fastify.delete(
+    '/boards/:id/tasks/:id',
+    { preValidation: [fastify.auth] },
+    deleteTaskHandler
+  );
 
   // Update task
-  fastify.put('/boards/:id/tasks/:id', updateTaskSchema, updateTaskHandler);
+  fastify.put(
+    '/boards/:id/tasks/:id',
+    { schema: updateTaskSchema, preValidation: [fastify.auth] },
+    updateTaskHandler
+  );
 };
 
 export default tasksRoutes;

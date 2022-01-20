@@ -17,19 +17,39 @@ import {
 
 const boardsRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   // Get all boards
-  fastify.get('/boards', getBoardsSchema, getBoardsHandler);
+  fastify.get(
+    '/boards',
+    { schema: getBoardsSchema, preValidation: [fastify.auth] },
+    getBoardsHandler
+  );
 
   // Get single board
-  fastify.get('/boards/:id', getBoardSchema, getBoardHandler);
+  fastify.get(
+    '/boards/:id',
+    { schema: getBoardSchema, preValidation: [fastify.auth] },
+    getBoardHandler
+  );
 
   // Add board
-  fastify.post('/boards', addBoardSchema, addBoardHandler);
+  fastify.post(
+    '/boards',
+    { schema: addBoardSchema, preValidation: [fastify.auth] },
+    addBoardHandler
+  );
 
   // Delete board
-  fastify.delete('/boards/:id', deleteBoardHandler);
+  fastify.delete(
+    '/boards/:id',
+    { preValidation: [fastify.auth] },
+    deleteBoardHandler
+  );
 
   // Update board
-  fastify.put('/boards/:id', updateBoardSchema, updateBoardHandler);
+  fastify.put(
+    '/boards/:id',
+    { schema: updateBoardSchema, preValidation: [fastify.auth] },
+    updateBoardHandler
+  );
 };
 
 export default boardsRoutes;
