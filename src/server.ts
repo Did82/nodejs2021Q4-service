@@ -5,12 +5,18 @@ import boardsRoutes from './resources/boards/board.router';
 import tasksRoutes from './resources/tasks/task.router';
 import myLogger from './common/logger';
 import db from './db/db';
+import auth from './common/auth';
+import loginRoute from './resources/login/login.router';
 
-const fastify: FastifyInstance = Fastify({
+export const fastify: FastifyInstance = Fastify({
   logger: myLogger,
 });
 
 const port: number = parseInt(<string>PORT, 10) || 3000;
+
+fastify.register(auth).after((err) => {
+  if (err) throw err;
+});
 
 fastify.register(require('fastify-swagger'), {
   exposeRoute: true,
@@ -21,6 +27,10 @@ fastify.register(require('fastify-swagger'), {
 });
 
 fastify.register(db).after((err) => {
+  if (err) throw err;
+});
+
+fastify.register(loginRoute).after((err) => {
   if (err) throw err;
 });
 

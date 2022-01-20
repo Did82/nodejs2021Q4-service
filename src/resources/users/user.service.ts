@@ -4,6 +4,7 @@ import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 import { User } from '../../db/entity/User';
 import { Task } from '../../db/entity/Task';
+import { SALT } from '../../common/config';
 
 export interface IParams {
   id: string;
@@ -20,6 +21,8 @@ type MyReq = FastifyRequest<{
   Body: IUserPostBody;
 }>;
 
+const salt: number = parseInt(SALT!, 10);
+
 const getUsersHandler = async (req: MyReq, reply: FastifyReply) => {
   const allUsers = await getRepository(User).find();
   return reply.code(200).send(allUsers);
@@ -35,7 +38,7 @@ const getUserHandler = async (req: MyReq, reply: FastifyReply) => {
 
 const addUserHandler = async (req: MyReq, reply: FastifyReply) => {
   const newUser = await getRepository(User).create(req.body);
-  newUser.password = await hash(newUser.password, 10);
+  newUser.password = await hash(newUser.password, salt);
   const savedUser = await getRepository(User).save(newUser);
   return reply.code(201).send(savedUser);
 };

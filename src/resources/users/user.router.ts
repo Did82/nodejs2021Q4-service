@@ -17,19 +17,39 @@ import {
 
 const usersRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   // Get all users
-  fastify.get('/users', getUsersSchema, getUsersHandler);
+  fastify.get(
+    '/users',
+    { schema: getUsersSchema, preValidation: [fastify.auth] },
+    getUsersHandler
+  );
 
   // Get single user
-  fastify.get('/users/:id', getUserSchema, getUserHandler);
+  fastify.get(
+    '/users/:id',
+    { schema: getUserSchema, preValidation: [fastify.auth] },
+    getUserHandler
+  );
 
   // Add user
-  fastify.post('/users', addUserSchema, addUserHandler);
+  fastify.post(
+    '/users',
+    { schema: addUserSchema, preValidation: [fastify.auth] },
+    addUserHandler
+  );
 
   // Delete user
-  fastify.delete('/users/:id', deleteUserHandler);
+  fastify.delete(
+    '/users/:id',
+    { schema: getUserSchema, preValidation: [fastify.auth] },
+    deleteUserHandler
+  );
 
   // Update user
-  fastify.put('/users/:id', updateUserSchema, updateUserHandler);
+  fastify.put(
+    '/users/:id',
+    { schema: updateUserSchema, preValidation: [fastify.auth] },
+    updateUserHandler
+  );
 };
 
 export default usersRoutes;

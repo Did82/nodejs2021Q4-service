@@ -6,12 +6,14 @@ import { hash } from 'bcryptjs';
 import { User } from './entity/User';
 import { Board } from './entity/Board';
 import { Task } from './entity/Task';
+import { SALT } from '../common/config';
 
 export default fp(async (fastify: FastifyInstance) => {
+  const salt: number = parseInt(SALT!, 10);
   const admin = {
     name: 'admin',
     login: 'admin',
-    password: await hash('admin', 10),
+    password: await hash('admin', salt),
   };
 
   try {
