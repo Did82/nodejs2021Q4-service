@@ -21,6 +21,7 @@ export default fp(async (fastify: FastifyInstance) => {
     Object.assign(connectionOptions, {
       entities: [User, Board, Task],
     });
+
     await createConnection(connectionOptions);
     fastify.log.info('database connected');
 

@@ -1,4 +1,8 @@
-import Fastify, { FastifyInstance } from 'fastify';
+import Fastify, {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+} from 'fastify';
 import { PORT } from './common/config';
 import usersRoutes from './resources/users/user.router';
 import boardsRoutes from './resources/boards/board.router';
@@ -44,6 +48,10 @@ fastify.register(boardsRoutes).after((err) => {
 
 fastify.register(tasksRoutes).after((err) => {
   if (err) throw err;
+});
+
+fastify.get('/', (_: FastifyRequest, reply: FastifyReply) => {
+  reply.send({ hello: 'world', doc: 'localhost:4000/doc' });
 });
 
 const start = async () => {
