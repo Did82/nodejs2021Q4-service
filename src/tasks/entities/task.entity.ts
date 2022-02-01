@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Board } from '../../boards/entities/board.entity';
 
 @Entity()
 export class Task {
@@ -14,12 +22,27 @@ export class Task {
   @Column()
   description!: string;
 
-  @Column({ type: 'text', nullable: true })
-  userId!: string | null;
+  @Column({ type: 'uuid', nullable: true })
+  columnId: string | null;
 
-  @Column({ type: 'text', nullable: true })
-  boardId!: string | null;
+  @Column({ type: 'uuid', nullable: true })
+  userId: string | null;
 
-  @Column({ type: 'text', nullable: true })
-  columnId!: string | null;
+  @Column({ type: 'uuid', nullable: true })
+  boardId: string | null;
+
+  @ManyToOne(() => User, (user) => user.id, {
+    cascade: true,
+    nullable: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  user: User;
+
+  @ManyToOne(() => Board, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  board: Board;
 }

@@ -3,20 +3,25 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { IdParams } from '../app.controller';
 
-@Controller('tasks')
+@Controller('boards/:boardId/tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
+  create(
+    @Body() createTaskDto: CreateTaskDto,
+    @Param('boardId') boardId: string,
+  ) {
+    createTaskDto.boardId = boardId;
     return this.tasksService.create(createTaskDto);
   }
 
@@ -26,17 +31,17 @@ export class TasksController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasksService.findOne(+id);
+  findOne(@Param() params: IdParams) {
+    return this.tasksService.findOne(params.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(+id, updateTaskDto);
+  @Put(':id')
+  update(@Param() params: IdParams, @Body() updateTaskDto: UpdateTaskDto) {
+    return this.tasksService.update(params.id, updateTaskDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tasksService.remove(+id);
+  remove(@Param() params: IdParams) {
+    return this.tasksService.remove(params.id);
   }
 }

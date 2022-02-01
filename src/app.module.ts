@@ -8,9 +8,6 @@ import { BoardsModule } from './boards/boards.module';
 import { TasksModule } from './tasks/tasks.module';
 import { LoginModule } from './login/login.module';
 import { FileModule } from './file/file.module';
-import { User } from './users/entities/user.entity';
-import { Board } from './boards/entities/board.entity';
-import { Task } from './tasks/entities/task.entity';
 
 @Module({
   imports: [
@@ -22,7 +19,7 @@ import { Task } from './tasks/entities/task.entity';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Board, Task],
+      autoLoadEntities: true,
       synchronize: true,
       logging: false,
     }),

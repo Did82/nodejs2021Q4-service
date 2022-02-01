@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Board } from './entities/board.entity';
+import { Columns } from './entities/column.entity';
+import { Task } from '../tasks/entities/task.entity';
 
 @Injectable()
 export class BoardsService {
-  create(createBoardDto: CreateBoardDto) {
-    return 'This action adds a new board';
+  constructor(
+    @InjectRepository(Board)
+    private boardsRepository: Repository<Board>,
+    @InjectRepository(Columns)
+    private columnsRepository: Repository<Columns>,
+    @InjectRepository(Board)
+    private tasksRepository: Repository<Task>,
+  ) {}
+
+  async create(createBoardDto: CreateBoardDto) {
+    const board = this.boardsRepository.create(createBoardDto);
+    const columns = this.columnsRepository.create(createBoardDto.columns);
+    await this.columnsRepository.save(columns);
+    board.columns = columns;
+    return this.boardsRepository.save(board);
   }
 
-  findAll() {
-    return `This action returns all boards`;
+  async findAll() {
+    return await this.boardsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} board`;
+  async findOne(id: string) {
+    const board = await this.boardsRepository.findOne(id);
+    if (!board) throw new NotFoundException('Board not found');
+    return board;
   }
 
-  update(id: number, updateBoardDto: UpdateBoardDto) {
-    return `This action updates a #${id} board`;
+  async update(id: string, updateBoardDto: UpdateBoardDto) {
+    const board = await this.findOne(id);
+    this.boardsRepository.merge(board, updateBoardDto);
+    return await this.boardsRepository.save(board);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} board`;
+  async remove(id: string) {
+    await this.findOne(id);
+    await this.boardsRepository.delete(id);
+    return 'Board #${id} was deleted';
   }
 }

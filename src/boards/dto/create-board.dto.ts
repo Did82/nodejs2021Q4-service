@@ -1,1 +1,9 @@
-export class CreateBoardDto {}
+import { IsArray, IsString } from 'class-validator';
+
+export class CreateBoardDto {
+  @IsString()
+  title: string;
+
+  @IsArray()
+  columns: [];
+}
