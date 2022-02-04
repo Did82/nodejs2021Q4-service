@@ -1,26 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { CreateFileDto } from './dto/create-file.dto';
-import { UpdateFileDto } from './dto/update-file.dto';
+import { Injectable, StreamableFile, UploadedFile } from '@nestjs/common';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class FileService {
-  create(createFileDto: CreateFileDto) {
-    return 'This action adds a new file';
+  async upload(@UploadedFile() file: Express.Multer.File) {
+    return {
+      path: file.path,
+      filename: file.originalname,
+      mimetype: file.mimetype,
+    };
   }
 
-  findAll() {
-    return `This action returns all file`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} file`;
-  }
-
-  update(id: number, updateFileDto: UpdateFileDto) {
-    return `This action updates a #${id} file`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} file`;
+  download(filename: string) {
+    const file = createReadStream(join('/app/uploaded-files', filename));
+    return new StreamableFile(file);
   }
 }

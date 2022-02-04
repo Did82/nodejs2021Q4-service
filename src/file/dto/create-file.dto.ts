@@ -1,1 +1,6 @@
-export class CreateFileDto {}
+import { IsOptional, IsString } from 'class-validator';
+
+export class CreateFileDto {
+  @IsOptional()
+  filename: string;
+}

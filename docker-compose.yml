@@ -26,6 +26,7 @@ services:
     volumes:
       - ./src:/app/src
       - ./LOG:/app/LOG
+      - files:/app/uploaded-files
     restart: always
     networks:
       - app-network
@@ -37,7 +38,7 @@ services:
     networks:
       - app-network
 volumes:
-  mydata:
+  files:
   db:
     driver: local
 networks:
