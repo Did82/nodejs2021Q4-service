@@ -1,6 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Columns } from './column.entity';
-import { Task } from '../../tasks/entities/task.entity';
 
 @Entity()
 export class Board {
@@ -15,10 +14,4 @@ export class Board {
     onDelete: 'CASCADE',
   })
   columns: Columns[];
-
-  // @OneToMany(() => Task, (task) => task.board, {
-  //   eager: true,
-  //   onDelete: 'CASCADE',
-  // })
-  // task: Task[];
 }
