@@ -7,18 +7,30 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
+  admin = {
+    name: 'admin',
+    login: 'admin',
+    password: 'admin',
+  };
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
-    const user = this.usersRepository.create(createUserDto);
-    return this.usersRepository.save(user);
+  async createAdmin() {
+    const isAdmin = !!(await this.usersRepository.findOne({ login: 'admin' }));
+    if (isAdmin) return;
+    const createdAdmin = await this.usersRepository.create(this.admin);
+    await this.usersRepository.save(createdAdmin);
   }
 
-  findAll() {
-    return this.usersRepository.find();
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.usersRepository.create(createUserDto);
+    return await this.usersRepository.save(user);
+  }
+
+  async findAll() {
+    return await this.usersRepository.find();
   }
 
   async findOne(id: string) {
@@ -35,6 +47,6 @@ export class UsersService {
 
   async remove(id: string) {
     await this.findOne(id);
-    return this.usersRepository.delete(id);
+    return await this.usersRepository.delete(id);
   }
 }

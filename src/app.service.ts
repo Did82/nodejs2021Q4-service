@@ -9,7 +9,6 @@ export class AppService {
   }
 
   getHello(): string {
-    this.logger.log('kugikjhboljhblkjblhjblhjbljbljblkjb');
     return 'Hello World!';
   }
 }

@@ -8,7 +8,9 @@ import { BoardsModule } from './boards/boards.module';
 import { TasksModule } from './tasks/tasks.module';
 import { LoginModule } from './login/login.module';
 import { FileModule } from './file/file.module';
+import { AuthModule } from './auth/auth.module';
 import LogsMiddleware from './common/middleware/logs.middleware';
+import { Connection } from 'typeorm';
 
 @Module({
   imports: [
@@ -24,16 +26,19 @@ import LogsMiddleware from './common/middleware/logs.middleware';
       synchronize: true,
       logging: false,
     }),
+    AuthModule,
     UsersModule,
     BoardsModule,
     TasksModule,
     LoginModule,
     FileModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
+  constructor(private connection: Connection) {}
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LogsMiddleware).forRoutes('*');
   }
