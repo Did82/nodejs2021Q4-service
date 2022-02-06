@@ -8,7 +8,7 @@
 ## Running in Docker container
 
 ```
-docker-compose up -d
+docker-compose up --build
 ```
 
 ## Testing
