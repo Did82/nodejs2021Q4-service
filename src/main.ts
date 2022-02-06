@@ -7,6 +7,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AllExceptionsFilter } from './common/error/all-exceptions.filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,15 @@ async function bootstrap() {
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
+
+  const config = new DocumentBuilder()
+    .setTitle('nodejs2021Q4-service')
+    .setDescription('The nodejs2021Q4-service API description')
+    .setVersion('1.0')
+    .addTag('Did82')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('doc', app, document);
 
   await app.listen(port);
   logger.log(`🚀 Application is running on: ${await app.getUrl()}`);
